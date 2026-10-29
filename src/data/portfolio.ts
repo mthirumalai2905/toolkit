@@ -275,7 +275,7 @@ export const EXPERIENCES: ExperienceItem[] = [
     slug: "semantic-as",
     company: "Semantic AS",
     handle: "@semantic_no",
-    role: "AI Engineer",
+    role: "AI Engineer & Business Development Consultant",
     type: "Full-time · Specialist",
     period: "Sep 2026 — Present",
     duration: "Current",
@@ -283,9 +283,9 @@ export const EXPERIENCES: ExperienceItem[] = [
     current: true,
     tech: ["Production LLMs", "RAG", "Agent Orchestration", "Evaluation Harnesses", "TypeScript", "Python"],
     preview:
-      "Engineering production LLM architectures, hybrid retrieval pipelines, and autonomous agent workflows with strict latency budgets and deterministic evaluation harnesses.",
+      "AI engineer and business development consultant. Production LLM systems, hybrid retrieval, and the customer conversations around that work.",
     summary:
-      "At Semantic AS, I focus on building resilient AI systems and enterprise intelligence pipelines—designing hybrid retrieval, tool-use orchestration, and automated evaluation gates that keep grounded responses fast and trustworthy in production.",
+      "At Semantic AS I work as an AI engineer and a business development consultant. The engineering is resilient AI systems and enterprise intelligence pipelines: hybrid retrieval, tool-use orchestration, and evaluation gates that keep grounded responses fast. The consulting side takes that work into the business.",
     highlights: [
       {
         title: "Hybrid Retrieval & Grounding",
@@ -301,6 +301,11 @@ export const EXPERIENCES: ExperienceItem[] = [
         title: "Continuous Evaluation Harnesses",
         detail:
           "Built automated faithfulness, tool-accuracy, and p95 latency regression suites integrated directly into CI/CD.",
+      },
+      {
+        title: "Business Development",
+        detail:
+          "Business development consultant alongside the engineering, carrying the systems into customer and partner conversations.",
       },
     ],
     stats: { replies: 19, reposts: 28, likes: 276, views: "5.2K" },
@@ -350,6 +355,29 @@ export const EXPERIENCES: ExperienceItem[] = [
       },
     ],
     stats: { replies: 24, reposts: 39, likes: 318, views: "6.4K" },
+  },
+  {
+    slug: "augmentpath-labs",
+    company: "Augmentpath Labs",
+    handle: "@augmentpath",
+    role: "Growth Lead",
+    type: "Part-time",
+    period: "Part-time",
+    duration: "",
+    location: "Texas, United States (Remote)",
+    tech: [],
+    preview:
+      "Part-time growth lead, remote from Texas in the United States.",
+    summary:
+      "Growth lead at Augmentpath Labs. The role was part-time, and the work was remote from Texas in the United States.",
+    highlights: [
+      {
+        title: "Growth",
+        detail:
+          "Led growth for Augmentpath Labs on a part-time, remote basis.",
+      },
+    ],
+    stats: { replies: 4, reposts: 7, likes: 64, views: "1.2K" },
   },
   {
     slug: "mkc-labs",

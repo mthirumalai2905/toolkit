@@ -8,6 +8,7 @@
   --color-card: var(--bg-card);
   --color-card-hover: var(--bg-card-hover);
   --color-pill: var(--bg-pill);
+  --color-segment: var(--bg-segment);
   --color-ink: var(--text-primary);
   --color-muted: var(--text-secondary);
   --color-faint: var(--text-muted);
@@ -30,6 +31,7 @@
   --bg-card: #1c1c1e;
   --bg-card-hover: rgba(255, 255, 255, 0.045);
   --bg-pill: rgba(255, 255, 255, 0.08);
+  --bg-segment: #636366;
   --text-primary: #f5f5f7;
   --text-secondary: #a1a1a6;
   --text-muted: #6e6e73;
@@ -50,6 +52,7 @@
   --bg-card: #2c2c2e;
   --bg-card-hover: rgba(255, 255, 255, 0.045);
   --bg-pill: rgba(255, 255, 255, 0.08);
+  --bg-segment: #6e6e73;
   --text-primary: #f5f5f7;
   --text-secondary: #aeaeb2;
   --text-muted: #8e8e93;
@@ -70,6 +73,7 @@
   --bg-card: #ffffff;
   --bg-card-hover: rgba(0, 0, 0, 0.03);
   --bg-pill: #e8e8ed;
+  --bg-segment: #ffffff;
   --text-primary: #1d1d1f;
   --text-secondary: #6e6e73;
   --text-muted: #86868b;
@@ -188,4 +192,10 @@ body {
 :focus-visible {
   outline: 2px solid var(--accent-blue);
   outline-offset: 2px;
+}
+
+.segmented-tab:focus,
+.segmented-tab:focus-visible {
+  outline: none;
+  outline-offset: 0;
 }

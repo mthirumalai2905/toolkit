@@ -316,7 +316,8 @@ function ExperienceDetail({
         <span className="text-muted"> · {role.type}</span>
       </p>
       <p className="mt-1 text-[13px] text-muted">
-        {role.period} · {role.duration}
+        {role.period}
+        {role.duration ? ` · ${role.duration}` : ""}
       </p>
       <p className="mt-1 text-[13px] font-medium text-accent">{role.location}</p>
       <p className="mt-5 text-[13px] leading-6 text-ink">{role.summary}</p>
@@ -645,11 +646,13 @@ export function Portfolio() {
                   <p className="mt-2 text-[13px] leading-6 text-muted">{role.preview}</p>
                   <p className="mt-2 text-[13px]">
                     <span className="font-medium text-accent">{role.location}</span>
-                    <span className="text-faint"> · {role.duration}</span>
+                    {role.duration && <span className="text-faint"> · {role.duration}</span>}
                   </p>
-                  <p className="mt-2 text-[13px] leading-5 text-muted">
-                    {role.tech.join(" · ")}
-                  </p>
+                  {role.tech.length > 0 && (
+                    <p className="mt-2 text-[13px] leading-5 text-muted">
+                      {role.tech.join(" · ")}
+                    </p>
+                  )}
                 </Post>
               ))}
 
