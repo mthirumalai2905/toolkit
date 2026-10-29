@@ -43,13 +43,13 @@ export const metadata: Metadata = {
   },
 };
 
-const themeBoot = `(function(){try{var t=localStorage.getItem("portfolio-theme");if(t!=="light"&&t!=="dim"&&t!=="dark")t="dark";document.documentElement.setAttribute("data-theme",t);}catch(e){document.documentElement.setAttribute("data-theme","dark");}})();`;
+const themeBoot = `(function(){try{var t=localStorage.getItem("portfolio-theme");if(t!=="light"&&t!=="dim"&&t!=="dark")t="light";document.documentElement.setAttribute("data-theme",t);}catch(e){document.documentElement.setAttribute("data-theme","light");}})();`;
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      data-theme="dark"
+      data-theme="light"
       suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >

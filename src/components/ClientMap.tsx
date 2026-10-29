@@ -10,15 +10,19 @@ export function ClientMap() {
   return (
     <div className="relative mt-3 overflow-hidden rounded-2xl bg-card">
       <img src={src} alt="" className="block h-auto w-full" />
-      {CLIENT_PINS.map((pin) => {
+      {CLIENT_PINS.map((pin, index) => {
         const left = ((pin.lon + 180) / 360) * 100;
         const top = ((90 - pin.lat) / 180) * 100;
         return (
           <span
             key={pin.city}
             title={pin.city}
-            className="absolute h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent shadow-[0_0_0_3px_color-mix(in_srgb,var(--accent-blue)_35%,transparent)]"
-            style={{ left: `${left}%`, top: `${top}%` }}
+            className="map-pin"
+            style={{
+              left: `${left}%`,
+              top: `${top}%`,
+              ["--beep-delay" as string]: `${index * 0.22}s`,
+            }}
           />
         );
       })}

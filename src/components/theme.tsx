@@ -12,7 +12,7 @@ const THEMES: { id: ThemeName; label: string; icon: typeof Sun }[] = [
 ];
 
 export function useTheme() {
-  const [theme, setTheme] = useState<ThemeName>("dark");
+  const [theme, setTheme] = useState<ThemeName>("light");
 
   useEffect(() => {
     const stored = document.documentElement.getAttribute("data-theme");
