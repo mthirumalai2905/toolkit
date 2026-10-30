@@ -7,7 +7,7 @@ import { PROFILE } from "@/data/portfolio";
 
 type Place = { x: number; y: number; z: number };
 
-const LAYOUT_KEY = "portfolio-desk-layout-v5";
+const LAYOUT_KEY = "portfolio-desk-layout-v6";
 
 function cordSag(dist: number, restDrop: number, side: number) {
   const slack = restDrop - dist;
