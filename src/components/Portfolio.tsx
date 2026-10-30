@@ -12,6 +12,7 @@ import {
   Pin,
 } from "lucide-react";
 import { ClientMap } from "@/components/ClientMap";
+import { DesignDesk } from "@/components/DesignDesk";
 import { EngagementBar } from "@/components/EngagementBar";
 import { CompetitiveHeatmap } from "@/components/CompetitiveHeatmap";
 import { ThemeSwitch, useTheme } from "@/components/theme";
@@ -331,6 +332,7 @@ function ExperienceDetail({
 export function Portfolio() {
   const { theme, applyTheme } = useTheme();
   const [tab, setTab] = useState<TabId>("posts");
+  const [designOpen, setDesignOpen] = useState(false);
   const [open, setOpen] = useState<OpenItem | null>(null);
   const scrollY = useRef(0);
 
@@ -726,6 +728,20 @@ export function Portfolio() {
           </>
         )}
       </div>
+      <button
+        type="button"
+        onClick={() => setDesignOpen((open) => !open)}
+        aria-label={designOpen ? "Close design table" : "Open design table"}
+        className="fixed bottom-5 right-5 z-[60] h-11 w-11 overflow-hidden rounded-full shadow-[0_8px_18px_rgba(0,0,0,0.28)] ring-2 ring-white"
+      >
+        <img
+          src="/design/profile-mark.jpg?v=3"
+          alt=""
+          className="h-full w-full object-cover"
+          style={{ objectPosition: "center" }}
+        />
+      </button>
+      {designOpen && <DesignDesk onClose={() => setDesignOpen(false)} />}
     </div>
   );
 }
