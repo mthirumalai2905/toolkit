@@ -104,6 +104,71 @@ export function NoteReader({ essay }: { essay: EssayItem }) {
                   </ul>
                 );
               }
+              if (block.type === "strong") {
+                return (
+                  <p key={index} className="text-[17px] font-semibold leading-7 tracking-[-0.02em]">
+                    {block.text}
+                  </p>
+                );
+              }
+              if (block.type === "em") {
+                return (
+                  <p key={index} className="text-[13px] italic leading-6 text-muted">
+                    {block.text}
+                  </p>
+                );
+              }
+              if (block.type === "image" && block.src) {
+                return (
+                  <figure key={index} className="overflow-hidden rounded-[18px] bg-white">
+                    <img src={block.src} alt={block.alt ?? ""} className="block h-auto w-full" />
+                  </figure>
+                );
+              }
+              if (block.type === "table" && block.headers && block.rows) {
+                return (
+                  <div
+                    key={index}
+                    className="overflow-hidden rounded-[16px]"
+                    style={{ border: "1px solid var(--border-hairline)" }}
+                  >
+                    <table className="w-full border-collapse text-[13px] leading-5">
+                      <thead>
+                        <tr>
+                          {block.headers.map((header, headerIndex) => (
+                            <th
+                              key={header}
+                              className={`px-3 py-2.5 font-semibold ${
+                                headerIndex === block.headers!.length - 1 ? "text-right" : "text-left"
+                              }`}
+                              style={{ borderBottom: "1px solid var(--border-hairline)" }}
+                            >
+                              {header}
+                            </th>
+                          ))}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {block.rows.map((row) => (
+                          <tr key={row.join("|")}>
+                            {row.map((cell, cellIndex) => (
+                              <td
+                                key={`${row[0]}-${cell}`}
+                                className={`px-3 py-2.5 ${
+                                  cellIndex === row.length - 1 ? "text-right tabular-nums" : "text-left"
+                                }`}
+                                style={{ borderTop: "1px solid var(--border-hairline)" }}
+                              >
+                                {cell}
+                              </td>
+                            ))}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                );
+              }
               return (
                 <p key={index} className="text-[15px] leading-7 text-ink">
                   {block.text}

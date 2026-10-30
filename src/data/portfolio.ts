@@ -49,9 +49,13 @@ export interface ExperienceItem {
 }
 
 export interface EssayBlock {
-  type: "p" | "h2" | "quote" | "ul";
+  type: "p" | "h2" | "quote" | "ul" | "strong" | "em" | "image" | "table";
   text?: string;
   items?: string[];
+  src?: string;
+  alt?: string;
+  headers?: string[];
+  rows?: string[][];
 }
 
 export interface EssayItem {
@@ -534,6 +538,173 @@ export const EXPERIENCES: ExperienceItem[] = [
 ];
 
 export const ESSAYS: EssayItem[] = [
+  {
+    slug: "the-tech-industry-is-moving-forward-are-you",
+    title: "The Tech Industry Is Moving Forward. Are You?",
+    date: "Oct 30, 2026",
+    dateISO: "2026-10-30",
+    read: "4 min read",
+    excerpt:
+      "I see that now, most of the people who check out my LinkedIn posts barely read anything and then DM me saying, \"Hey bro, I know Java, Python, React. Can I get a good job?\"",
+    tags: ["Jobs", "Applying", "Salaries"],
+    stats: { replies: 14, reposts: 22, likes: 168, views: "3.1K" },
+    content: [
+      {
+        type: "p",
+        text: "I see that now, most of the people who check out my LinkedIn posts barely read anything and then DM me saying, \"Hey bro, I know Java, Python, React. Can I get a good job?\"",
+      },
+      {
+        type: "p",
+        text: "I'm like, dude, that's too old school for the new school syllabus.",
+      },
+      {
+        type: "image",
+        src: "/notes/same-message.svg?v=2",
+        alt: "Cartoon of someone looking at a row of identical message bubbles, with one bubble left empty.",
+      },
+      {
+        type: "p",
+        text: "Even if it was 5 years ago, you might have not gotten a good job because that's just the basic prerequisite one must know to build and understand some good systems and lay out the architecture.",
+      },
+      {
+        type: "p",
+        text: "The tech field is growing more rapidly than ever in history. One must not limit themselves to one domain. Instead, start and try exploring other domains as well.",
+      },
+      {
+        type: "p",
+        text: "Full-stack development, cybersecurity, AI engineering, machine learning, blockchain, cloud computing, maths and so much more.",
+      },
+      {
+        type: "p",
+        text: "Don't just stick to one thing and expect the industry to revolve around it.",
+      },
+      {
+        type: "p",
+        text: "Now, as per how to secure a job, it's pretty easy. I keep telling people who ask me dozens of times. I just say this one thing:",
+      },
+      {
+        type: "strong",
+        text: "Just keep applying and reaching out to people.",
+      },
+      {
+        type: "p",
+        text: "Dammit, I said it literally more than 300 times, and yes, maybe more than 500 ig.",
+      },
+      {
+        type: "image",
+        src: "/notes/keep-reaching.svg?v=4",
+        alt: "Cartoon of someone heading toward a large arrow, with papers behind them.",
+      },
+      {
+        type: "p",
+        text: "But if you are not getting a job, that means you deserve to not be getting one. You kept doing that same thing and never actually tried something different.",
+      },
+      {
+        type: "p",
+        text: "Also, one more thing. When you cold DM someone, don't just follow the same standard template everyone else does.",
+      },
+      {
+        type: "p",
+        text: "\"I have worked at this company, I did this and that, here are my academics, here is my resume.\"",
+      },
+      {
+        type: "p",
+        text: "Dude, founders don't really give a shit about your academics. They want to know what you can actually build and what you bring to the table.",
+      },
+      {
+        type: "p",
+        text: "JK, it's always better to stay on top from the day you were born. 😂",
+      },
+      {
+        type: "p",
+        text: "But seriously, it's going to be much better if you create a Loom video of yourself and walk them through one of your projects.",
+      },
+      {
+        type: "p",
+        text: "Show them what you built, why you built it, how it works and what problems you solved.",
+      },
+      {
+        type: "p",
+        text: "Take them deep into one of your projects instead of just throwing a resume at them.",
+      },
+      {
+        type: "p",
+        text: "They'll actually get to see how you think, how you approach problems and what you're capable of building.",
+      },
+      {
+        type: "p",
+        text: "Trust me, a candidate who takes that extra step and shows something new and different is going to stand out much more than someone sending the same old copy-paste DM.",
+      },
+      {
+        type: "p",
+        text: "Now, let's talk about salaries for a moment.",
+      },
+      {
+        type: "p",
+        text: "Have you ever wondered where you actually stand in the Indian tech industry's salary distribution?",
+      },
+      {
+        type: "p",
+        text: "Here are some estimated numbers based on multiple salary sources. These aren't official statistics, but they give you a rough idea.",
+      },
+      {
+        type: "image",
+        src: "/notes/where-you-stand.svg?v=2",
+        alt: "Cartoon of someone looking up a row of bars that get taller.",
+      },
+      {
+        type: "table",
+        headers: ["Top percentage of tech professionals", "Annual salary (CTC)"],
+        rows: [
+          ["Top 50%", "₹11 LPA+"],
+          ["Top 25%", "₹18.7 LPA+"],
+          ["Top 10%", "₹20–28 LPA+"],
+          ["Top 1%", "₹60 LPA+"],
+          ["Top 0.2%", "₹1 Cr+"],
+        ],
+      },
+      {
+        type: "em",
+        text: "These are approximate estimates, not official salary benchmarks. Actual numbers vary depending on experience, role, company and how the data is collected.",
+      },
+      {
+        type: "p",
+        text: "There was a time a couple of months ago when I left my job and then started looking for a switch.",
+      },
+      {
+        type: "p",
+        text: "Recruiters and other startup founders were reaching out to me.",
+      },
+      {
+        type: "p",
+        text: "I had a personal goal. I wanted to make sure that whatever I earned next would put me somewhere around the top 10% of tech professionals in India.",
+      },
+      {
+        type: "p",
+        text: "But then, I had 0₹ income.",
+      },
+      {
+        type: "p",
+        text: "Still, I never settled just because I wasn't earning at that moment.",
+      },
+      {
+        type: "p",
+        text: "I ended up closing multiple clients from the West and Europe, then landed a crazy full-time job, which is super goat btw.",
+      },
+      {
+        type: "p",
+        text: "And that's pretty much it.",
+      },
+      {
+        type: "p",
+        text: "You don't necessarily need to know everything, but you definitely need to stop limiting yourself to what you already know.",
+      },
+      {
+        type: "p",
+        text: "Keep exploring, keep applying and reach out to people. You never know which conversation might actually change things for you.",
+      },
+    ],
+  },
   {
     slug: "designing-retrieval-for-production-llm-systems",
     title: "Designing retrieval for production LLM systems",
