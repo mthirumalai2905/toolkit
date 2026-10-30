@@ -3,9 +3,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import { EngagementBar } from "@/components/EngagementBar";
 import { ThemeSwitch, useTheme } from "@/components/theme";
 import { VerifiedBadge } from "@/components/VerifiedBadge";
-import { PROFILE, type EssayItem } from "@/data/portfolio";
+import { isLatestEssay, PROFILE, type EssayItem } from "@/data/portfolio";
 
 export function NoteReader({ essay }: { essay: EssayItem }) {
   const { theme, applyTheme } = useTheme();
@@ -57,6 +58,11 @@ export function NoteReader({ essay }: { essay: EssayItem }) {
           </div>
 
           <div className="flex flex-wrap items-center gap-2 text-[13px] text-muted">
+            {isLatestEssay(essay.slug) && (
+              <span className="rounded-full bg-pill px-2 py-0.5 text-[11px] font-semibold text-accent">
+                Latest
+              </span>
+            )}
             <time dateTime={essay.dateISO}>{essay.date}</time>
             <span>·</span>
             <span>{essay.read}</span>
@@ -175,6 +181,13 @@ export function NoteReader({ essay }: { essay: EssayItem }) {
                 </p>
               );
             })}
+          </div>
+          <div className="mt-8">
+            <EngagementBar
+              targetId={`note:${essay.slug}`}
+              reposts={essay.stats.reposts}
+              views={essay.stats.views}
+            />
           </div>
         </article>
       </div>

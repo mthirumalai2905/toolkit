@@ -6,16 +6,13 @@ import Link from "next/link";
 import {
   ArrowLeft,
   ArrowUpRight,
-  BarChart3,
   CalendarDays,
-  Heart,
   Link2,
   MapPin,
-  MessageCircle,
   Pin,
-  Repeat2,
 } from "lucide-react";
 import { ClientMap } from "@/components/ClientMap";
+import { EngagementBar } from "@/components/EngagementBar";
 import { CompetitiveHeatmap } from "@/components/CompetitiveHeatmap";
 import { ThemeSwitch, useTheme } from "@/components/theme";
 import { VerifiedBadge } from "@/components/VerifiedBadge";
@@ -23,6 +20,7 @@ import {
   EDUCATION,
   ESSAYS,
   EXPERIENCES,
+  isLatestEssay,
   PROFILE,
   PROJECTS,
   TOOLKIT,
@@ -75,39 +73,18 @@ function Avatar({
   );
 }
 
-function ActionRow({ stats }: { stats: Stats }) {
-  const items = [
-    { icon: MessageCircle, value: String(stats.replies), label: "replies" },
-    { icon: Repeat2, value: String(stats.reposts), label: "reposts" },
-    { icon: Heart, value: String(stats.likes), label: "likes" },
-    { icon: BarChart3, value: stats.views, label: "views" },
-  ];
-
-  return (
-    <div
-      aria-hidden
-      className="mt-2 flex max-w-md items-center justify-between text-[12px] text-muted"
-    >
-      {items.map((item) => (
-        <span key={item.label} className="inline-flex items-center gap-1.5">
-          <item.icon className="h-4 w-4" strokeWidth={1.75} />
-          <span className="tabular-nums">{item.value}</span>
-        </span>
-      ))}
-    </div>
-  );
-}
-
 function Post({
   date,
   pinned = false,
   stats,
+  targetId,
   onOpen,
   children,
 }: {
   date?: string;
   pinned?: boolean;
   stats?: Stats;
+  targetId?: string;
   onOpen?: () => void;
   children: ReactNode;
 }) {
@@ -141,7 +118,9 @@ function Post({
             )}
           </div>
           <div className="mt-1 text-[13px] leading-6 text-ink">{children}</div>
-          {stats && <ActionRow stats={stats} />}
+          {stats && targetId && (
+            <EngagementBar targetId={targetId} reposts={stats.reposts} views={stats.views} />
+          )}
         </div>
       </div>
     </article>
@@ -564,7 +543,7 @@ export function Portfolio() {
         <section>
           {tab === "posts" && (
             <>
-              <Post pinned date="Now" stats={{ replies: 24, reposts: 41, likes: 318, views: "6.2K" }}>
+              <Post pinned date="Now" targetId="post:discord" stats={{ replies: 24, reposts: 41, likes: 318, views: "6.2K" }}>
                 <p>
                   I&apos;m really active on Discord, talking about and distributing the
                   real-time web. Presence, sync, and the feeling that a product is still
@@ -579,20 +558,20 @@ export function Portfolio() {
                   </a>.
                 </p>
               </Post>
-              <Post date="Creativity" stats={{ replies: 11, reposts: 16, likes: 142, views: "2.4K" }}>
+              <Post date="Creativity" targetId="post:creativity" stats={{ replies: 11, reposts: 16, likes: 142, views: "2.4K" }}>
                 <p>
                   The other half is creativity. A desktop you can drag around, an image
                   from a sentence, a Pokédex you can poke. I like the systems, and I like
                   when they feel made by a person.
                 </p>
               </Post>
-              <Post date="Worldwide" stats={{ replies: 8, reposts: 14, likes: 121, views: "2.2K" }}>
+              <Post date="Worldwide" targetId="post:clients" stats={{ replies: 8, reposts: 14, likes: 121, views: "2.2K" }}>
                 <p>
                   Clients from all over. Same work, different coasts and time zones.
                 </p>
                 <ClientMap />
               </Post>
-              <Post date="1,033 days" stats={{ replies: 21, reposts: 36, likes: 290, views: "5.6K" }}>
+              <Post date="1,033 days" targetId="post:streak" stats={{ replies: 21, reposts: 36, likes: 290, views: "5.6K" }}>
                 <p>
                   <span className="font-semibold">1,033+ day streak.</span> Top 4% on
                   LeetCode, Specialist on Codeforces, 4★ on CodeChef.
@@ -610,6 +589,7 @@ export function Portfolio() {
                 <Post
                   key={project.id}
                   date={project.date}
+                  targetId={`work:${project.id}`}
                   stats={project.stats}
                   onOpen={() => openItem({ kind: "project", id: project.id })}
                 >
@@ -625,6 +605,7 @@ export function Portfolio() {
                 <Post
                   key={role.slug}
                   date={role.period}
+                  targetId={`experience:${role.slug}`}
                   stats={role.stats}
                   onOpen={() => openItem({ kind: "experience", slug: role.slug })}
                 >
@@ -657,7 +638,7 @@ export function Portfolio() {
               ))}
 
               <Label>Education</Label>
-              <Post date="2019 — 2025" stats={{ replies: 6, reposts: 9, likes: 98, views: "1.8K" }}>
+              <Post date="2019 — 2025" targetId="education" stats={{ replies: 6, reposts: 9, likes: 98, views: "1.8K" }}>
                 <ul className="divide-y divide-line-subtle">
                   {EDUCATION.map((item) => (
                     <li key={item.school} className="py-3 first:pt-0 last:pb-0">
@@ -674,7 +655,7 @@ export function Portfolio() {
               </Post>
 
               <Label>Toolkit</Label>
-              <Post date="Stack" stats={{ replies: 7, reposts: 11, likes: 104, views: "1.9K" }}>
+              <Post date="Stack" targetId="toolkit" stats={{ replies: 7, reposts: 11, likes: 104, views: "1.9K" }}>
                 <p className="mb-2 text-muted">What I reach for when a system has to ship.</p>
                 <ul>
                   {TOOLKIT.map((group) => (
@@ -691,7 +672,7 @@ export function Portfolio() {
                 </ul>
               </Post>
 
-              <Post date="Open" stats={{ replies: 4, reposts: 6, likes: 72, views: "1.1K" }}>
+              <Post date="Open" targetId="reach-out" stats={{ replies: 4, reposts: 6, likes: 72, views: "1.1K" }}>
                 <p className="text-[18px] font-semibold tracking-[-0.02em]">Reach out.</p>
                 <p className="mt-1 text-muted">
                   Hard AI problems, production systems, or just a sharp conversation.
@@ -712,14 +693,21 @@ export function Portfolio() {
 
           {tab === "notes" &&
             ESSAYS.map((essay) => (
-              <Post key={essay.slug} date={essay.date} stats={essay.stats}>
+              <Post key={essay.slug} date={essay.date} targetId={`note:${essay.slug}`} stats={essay.stats}>
                 <p className="text-[13px] text-muted">{essay.read}</p>
-                <Link
-                  href={notePath(essay.slug)}
-                  className="mt-1 block text-[16px] font-semibold tracking-[-0.02em] hover:underline"
-                >
-                  {essay.title}
-                </Link>
+                <div className="mt-1 flex flex-wrap items-center gap-2">
+                  <Link
+                    href={notePath(essay.slug)}
+                    className="text-[16px] font-semibold tracking-[-0.02em] hover:underline"
+                  >
+                    {essay.title}
+                  </Link>
+                  {isLatestEssay(essay.slug) && (
+                    <span className="rounded-full bg-pill px-2 py-0.5 text-[11px] font-semibold text-accent">
+                      Latest
+                    </span>
+                  )}
+                </div>
                 <p className="mt-1.5 text-[13px] leading-6 text-muted">{essay.excerpt}</p>
                 <div className="mt-2 flex flex-wrap gap-1.5">
                   {essay.tags.map((tag) => (

@@ -153,11 +153,6 @@ export const PROFILE = {
       href: "https://peerlist.io/mthirumalai2905",
     },
     {
-      label: "Instagram",
-      handle: "@mthirumalai2905",
-      href: "https://www.instagram.com/mthirumalai2905/",
-    },
-    {
       label: "Calendly",
       handle: "30min Quick Call",
       href: "https://calendly.com/mthirumalai2905/30min",
@@ -705,167 +700,14 @@ export const ESSAYS: EssayItem[] = [
       },
     ],
   },
-  {
-    slug: "designing-retrieval-for-production-llm-systems",
-    title: "Designing retrieval for production LLM systems",
-    date: "Jul 12, 2026",
-    dateISO: "2026-07-12",
-    read: "12 min read",
-    excerpt:
-      "Hybrid retrieval, latency budgets, and the evaluation loops that keep grounded answers trustworthy in production.",
-    tags: ["RAG", "Retrieval", "Systems"],
-    stats: { replies: 31, reposts: 64, likes: 412, views: "9.4K" },
-    content: [
-      {
-        type: "p",
-        text: "Most retrieval systems look fine in a notebook and fall apart the moment real traffic arrives. The difference is rarely the embedding model. It is how you design the path from query to context under latency, freshness, and failure constraints.",
-      },
-      { type: "h2", text: "Start with the failure modes" },
-      {
-        type: "p",
-        text: "Before picking a vector database, write down what 'wrong' looks like. Empty retrieval. Stale documents. Soft failures that still return an answer. Over-retrieval that blows the context window. Each of those needs an explicit policy.",
-      },
-      {
-        type: "ul",
-        items: [
-          "Empty retrieval should degrade to a safe refusal, not a confident hallucination.",
-          "Stale indexes need freshness SLAs tied to source systems, not best-effort sync jobs.",
-          "Soft ranking failures should be observable. If BM25 and dense disagree wildly, log it.",
-        ],
-      },
-      { type: "h2", text: "Hybrid is the default, not a luxury" },
-      {
-        type: "p",
-        text: "Dense retrieval alone is brittle on identifiers, error codes, and exact phrases. Lexical retrieval alone misses paraphrases. In production I almost always ship a hybrid stack: BM25 for precision, dense vectors for recall, and a lightweight reranker when the latency budget allows.",
-      },
-      {
-        type: "quote",
-        text: "Treat retrieval as a product surface. Latency, citation quality, and empty-result behavior are user-facing features.",
-      },
-      { type: "h2", text: "Measure what users actually feel" },
-      {
-        type: "p",
-        text: "Offline nDCG is useful. Online faithfulness and citation click-through are decisive. Instrument the full path: query rewrite, candidate set, rerank, prompt assembly, then model response. If you cannot attribute a bad answer to a retrieval miss versus a generation miss, you will optimize the wrong layer.",
-      },
-      {
-        type: "p",
-        text: "The systems that survive are opinionated: small candidate sets, hard latency budgets, and evaluation harnesses that run on every index change.",
-      },
-    ],
-  },
-  {
-    slug: "the-evaluation-harness-we-should-have-built-first",
-    title: "The evaluation harness we should have built first",
-    date: "May 18, 2026",
-    dateISO: "2026-05-18",
-    read: "9 min read",
-    excerpt:
-      "Why demos ship without evals, and how a minimal harness would have saved months of silent regressions.",
-    tags: ["Evals", "LLM Ops"],
-    stats: { replies: 24, reposts: 52, likes: 338, views: "7.8K" },
-    content: [
-      {
-        type: "p",
-        text: "We shipped three major prompt changes before we had a real evaluation harness. Each one improved a demo. Two of them quietly hurt production faithfulness. That is the tax of optimizing by vibe.",
-      },
-      { type: "h2", text: "A harness is not a spreadsheet" },
-      {
-        type: "p",
-        text: "An evaluation harness is a runnable system: curated cases, scorers, thresholds, and a place the results live next to the deploy. If it cannot block a merge, it is documentation wearing a lab coat.",
-      },
-      {
-        type: "ul",
-        items: [
-          "Start with 50 to 100 golden tasks that represent real user pain, not toy prompts.",
-          "Score faithfulness, tool correctness, and latency separately.",
-          "Store diffs per commit so regressions are attributable.",
-        ],
-      },
-      { type: "h2", text: "Online and offline need each other" },
-      {
-        type: "p",
-        text: "Offline suites catch sharp regressions. Online sampling catches distribution shift. The teams that win run both, and they treat eval failures with the same seriousness as unit test failures.",
-      },
-      {
-        type: "quote",
-        text: "If you cannot fail a release on eval quality, you do not have quality gates. You have dashboards.",
-      },
-    ],
-  },
-  {
-    slug: "latency-budgets-are-product-decisions",
-    title: "Latency budgets are product decisions",
-    date: "Mar 9, 2026",
-    dateISO: "2026-03-09",
-    read: "6 min read",
-    excerpt:
-      "Every millisecond you spend on retrieval, tools, or streaming is a product tradeoff. Treat it like one.",
-    tags: ["Latency", "Product"],
-    stats: { replies: 19, reposts: 43, likes: 289, views: "6.2K" },
-    content: [
-      {
-        type: "p",
-        text: "Engineers talk about latency as an infrastructure metric. Users experience it as trust. A 4-second grounded answer can feel slower than a 900ms ungrounded one if you do not stream or set expectations.",
-      },
-      { type: "h2", text: "Write the budget on a napkin" },
-      {
-        type: "p",
-        text: "Allocate time to routing, retrieval, tools, generation, and UI. If the sum exceeds what the product can tolerate, cut scope before you add GPUs. Most 'we need a faster model' conversations are really 'we refused to cut a stage'.",
-      },
-      {
-        type: "ul",
-        items: [
-          "TTFT under 800ms for interactive chat.",
-          "Retrieval under 120ms p95 for enterprise search assistants.",
-          "Tool loops capped with explicit user-visible progress.",
-        ],
-      },
-      {
-        type: "quote",
-        text: "A latency budget without an owner is a wish. Assign someone who can say no to features that break it.",
-      },
-    ],
-  },
-  {
-    slug: "notes-on-agent-orchestration-at-scale",
-    title: "Notes on agent orchestration at scale",
-    date: "Jan 22, 2026",
-    dateISO: "2026-01-22",
-    read: "14 min read",
-    excerpt:
-      "Durable state, replay, and human checkpoints: the unglamorous primitives that make agents reliable.",
-    tags: ["Agents", "Orchestration"],
-    stats: { replies: 27, reposts: 58, likes: 374, views: "8.5K" },
-    content: [
-      {
-        type: "p",
-        text: "Agent demos optimize for cleverness. Agent systems optimize for recoverability. Once a workflow spans minutes, tools, and humans, the hard problem is not planning. It is durable state.",
-      },
-      { type: "h2", text: "Make every step replayable" },
-      {
-        type: "p",
-        text: "If you cannot restart from a checkpoint after a worker crash, you do not have an agent platform. You have a long-running script. Persist inputs, tool results, and decisions. Treat the LLM turn as one more impure step with a recorded outcome.",
-      },
-      { type: "h2", text: "Humans are part of the graph" },
-      {
-        type: "p",
-        text: "Approval gates, clarifications, and overrides should be first-class nodes. Hiding them in Slack threads creates an orchestration system you cannot observe or test.",
-      },
-      {
-        type: "ul",
-        items: [
-          "Idempotent tool calls with explicit side-effect boundaries.",
-          "Timeouts and compensations for external systems.",
-          "Replay suites that re-run failed trajectories against mocked tools.",
-        ],
-      },
-      {
-        type: "quote",
-        text: "Scale is not more agents. Scale is more recoverable paths through the same graph.",
-      },
-    ],
-  },
 ];
+
+export function isLatestEssay(slug: string) {
+  const newest = ESSAYS.reduce((current, essay) =>
+    essay.dateISO > current.dateISO ? essay : current,
+  );
+  return newest.slug === slug;
+}
 
 export const TOOLKIT = [
   {
