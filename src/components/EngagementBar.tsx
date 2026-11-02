@@ -69,10 +69,12 @@ export function EngagementBar({
   targetId,
   reposts,
   views,
+  compact = false,
 }: {
   targetId: string;
   reposts: number;
   views: string;
+  compact?: boolean;
 }) {
   const [likes, setLikes] = useState(0);
   const [liked, setLiked] = useState(false);
@@ -176,37 +178,45 @@ export function EngagementBar({
 
   return (
     <div className="mt-2" onClick={(event) => event.stopPropagation()}>
-      <div className="flex max-w-md items-center justify-between text-[12px] text-muted">
+      <div
+        className={`flex max-w-md items-center justify-between text-muted ${
+          compact ? "text-[11px]" : "text-[12px]"
+        }`}
+      >
         <button
           type="button"
           onClick={() => setOpen((value) => !value)}
-          className="inline-flex items-center gap-1.5 rounded-full py-1 hover:text-ink"
+          className={`inline-flex items-center rounded-full py-1 hover:text-ink ${compact ? "gap-1" : "gap-1.5"}`}
           aria-expanded={open}
           aria-label="Comments"
         >
-          <MessageCircle className="h-4 w-4" strokeWidth={1.75} />
+          <MessageCircle className={compact ? "h-3.5 w-3.5" : "h-4 w-4"} strokeWidth={1.75} />
           <span className="tabular-nums">{comments.length}</span>
         </button>
         <button
           type="button"
           onClick={() => setNotice("repost")}
-          className="relative inline-flex items-center gap-1.5 rounded-full py-1 hover:text-ink"
+          className={`relative inline-flex items-center rounded-full py-1 hover:text-ink ${compact ? "gap-1" : "gap-1.5"}`}
           aria-label="Reposts"
         >
-          <Repeat2 className="h-4 w-4" strokeWidth={1.75} />
+          <Repeat2 className={compact ? "h-3.5 w-3.5" : "h-4 w-4"} strokeWidth={1.75} />
           <span className="tabular-nums">{reposts}</span>
           {notice === "repost" && <Oops />}
         </button>
         <button
           type="button"
           onClick={onLike}
-          className={`inline-flex items-center gap-1.5 rounded-full py-1 hover:text-ink ${
+          className={`inline-flex items-center rounded-full py-1 hover:text-ink ${compact ? "gap-1" : "gap-1.5"} ${
             liked ? "text-love" : ""
           }`}
           aria-label="Like"
         >
           <span className="relative inline-flex">
-            <Heart className="h-4 w-4" strokeWidth={1.75} fill={liked ? "currentColor" : "none"} />
+            <Heart
+              className={compact ? "h-3.5 w-3.5" : "h-4 w-4"}
+              strokeWidth={1.75}
+              fill={liked ? "currentColor" : "none"}
+            />
             {bursts.map((burst) =>
               burst.bits.map((bit) => (
                 <span
@@ -234,10 +244,10 @@ export function EngagementBar({
         <button
           type="button"
           onClick={() => setNotice("views")}
-          className="relative inline-flex items-center gap-1.5 rounded-full py-1 hover:text-ink"
+          className={`relative inline-flex items-center rounded-full py-1 hover:text-ink ${compact ? "gap-1" : "gap-1.5"}`}
           aria-label="Views"
         >
-          <BarChart3 className="h-4 w-4" strokeWidth={1.75} />
+          <BarChart3 className={compact ? "h-3.5 w-3.5" : "h-4 w-4"} strokeWidth={1.75} />
           <span className="tabular-nums">{views}</span>
           {notice === "views" && <Oops />}
         </button>

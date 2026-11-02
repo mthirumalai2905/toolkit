@@ -17,30 +17,27 @@ import { EngagementBar } from "@/components/EngagementBar";
 import { CompetitiveHeatmap } from "@/components/CompetitiveHeatmap";
 import { ThemeSwitch, useTheme } from "@/components/theme";
 import { VerifiedBadge } from "@/components/VerifiedBadge";
+import { BOOKS } from "@/data/books";
 import {
   EDUCATION,
   ESSAYS,
   EXPERIENCES,
   isLatestEssay,
   PROFILE,
-  PROJECTS,
   TOOLKIT,
   type ExperienceItem,
-  type ProjectItem,
 } from "@/data/portfolio";
-import { notePath } from "@/lib/site";
+import { libraryPath, notePath } from "@/lib/site";
 
-type TabId = "posts" | "work" | "experience" | "notes";
+type TabId = "posts" | "library" | "experience" | "notes";
 type Stats = { replies: number; reposts: number; likes: number; views: string };
-type OpenItem =
-  | { kind: "project"; id: string }
-  | { kind: "experience"; slug: string };
+type OpenItem = { kind: "experience"; slug: string };
 
 const TABS: { id: TabId; label: string }[] = [
   { id: "posts", label: "Posts" },
-  { id: "work", label: "Work" },
-  { id: "experience", label: "Experience" },
+  { id: "experience", label: "Experiences" },
   { id: "notes", label: "Notes" },
+  { id: "library", label: "Library" },
 ];
 
 const POST_COUNT = 4;
@@ -136,61 +133,11 @@ function Label({ children }: { children: ReactNode }) {
   );
 }
 
-function externalProps(href: string) {
-  if (href.startsWith("http")) {
-    return { target: "_blank", rel: "noopener noreferrer" } as const;
-  }
-  return {};
-}
-
-function ProjectBody({ project }: { project: ProjectItem }) {
-  const cta = project.href.includes("calendly")
-    ? "Request a walkthrough"
-    : "Open project";
-
-  return (
-    <>
-      <p className="text-[13px] leading-6">{project.tagline}</p>
-      <p className="mt-2 text-[13px] leading-6 text-muted">{project.description}</p>
-      <a
-        href={project.href}
-        {...externalProps(project.href)}
-        onClick={(event) => event.stopPropagation()}
-        className="mt-3 block overflow-hidden rounded-2xl bg-card transition-colors hover:bg-card-hover"
-      >
-        <div className="px-4 py-3.5">
-          <div className="flex items-start justify-between gap-3">
-            <div className="min-w-0">
-              <div className="text-[15px] font-semibold tracking-[-0.02em]">{project.name}</div>
-              <div className="mt-0.5 truncate text-[13px] text-muted">{project.handle}</div>
-            </div>
-            <span className="shrink-0 rounded-full bg-pill px-2.5 py-1 text-[12px] text-muted">
-              {project.metricLabel}
-            </span>
-          </div>
-          <p className="mt-2 text-[13px] leading-5 text-muted">{project.stack.join(" · ")}</p>
-        </div>
-        <div className="flex items-center gap-1 px-4 pb-3.5 text-[13px] font-medium text-accent">
-          {cta}
-          <ArrowUpRight className="h-3.5 w-3.5" />
-        </div>
-      </a>
-    </>
-  );
-}
-
 function Detail({ item }: { item: OpenItem }) {
   const titleId = useId();
-  const project =
-    item.kind === "project"
-      ? PROJECTS.find((entry) => entry.id === item.id)
-      : undefined;
-  const role =
-    item.kind === "experience"
-      ? EXPERIENCES.find((entry) => entry.slug === item.slug)
-      : undefined;
+  const role = EXPERIENCES.find((entry) => entry.slug === item.slug);
 
-  if (!project && !role) return null;
+  if (!role) return null;
 
   return (
     <article className="px-4 pb-16 pt-5">
@@ -204,58 +151,8 @@ function Detail({ item }: { item: OpenItem }) {
           <p className="text-[13px] text-muted">{PROFILE.handle}</p>
         </div>
       </div>
-      {project && <ProjectDetail project={project} titleId={titleId} />}
-      {role && <ExperienceDetail role={role} titleId={titleId} />}
+      <ExperienceDetail role={role} titleId={titleId} />
     </article>
-  );
-}
-
-function ProjectDetail({
-  project,
-  titleId,
-}: {
-  project: ProjectItem;
-  titleId: string;
-}) {
-  const cta = project.href.includes("calendly")
-    ? "Request a walkthrough"
-    : "Open project";
-
-  return (
-    <div>
-      <p className="text-[13px] text-muted">{project.handle}</p>
-      <h2 id={titleId} className="mt-1 text-[28px] font-bold tracking-[-0.03em]">
-        {project.name}
-      </h2>
-      <p className="mt-2 text-[17px] leading-6 text-ink">{project.tagline}</p>
-      <p className="mt-4 text-[13px] leading-6 text-muted">{project.description}</p>
-      <div className="mt-5 flex flex-wrap gap-2">
-        {project.stack.map((item) => (
-          <span
-            key={item}
-            className="rounded-full bg-pill px-3 py-1 text-[13px] font-medium text-ink"
-          >
-            {item}
-          </span>
-        ))}
-      </div>
-      <div className="mt-8 flex items-end justify-between gap-4">
-        <div>
-          <div className="text-2xl font-semibold tracking-[-0.03em]">
-            {project.metric}
-          </div>
-          <div className="text-[13px] text-faint">{project.metricLabel}</div>
-        </div>
-        <a
-          href={project.href}
-          {...externalProps(project.href)}
-          className="inline-flex items-center gap-1.5 rounded-full bg-accent px-4 py-2 text-[13px] font-semibold text-white"
-        >
-          {cta}
-          <ArrowUpRight className="h-4 w-4" />
-        </a>
-      </div>
-    </div>
   );
 }
 
@@ -337,6 +234,18 @@ export function Portfolio() {
   const scrollY = useRef(0);
 
   useEffect(() => {
+    const requested = new URLSearchParams(window.location.search).get("tab");
+    if (
+      requested === "posts" ||
+      requested === "library" ||
+      requested === "experience" ||
+      requested === "notes"
+    ) {
+      setTab(requested);
+    }
+  }, []);
+
+  useEffect(() => {
     if (!open) return;
     window.scrollTo(0, 0);
     const onKey = (event: KeyboardEvent) => {
@@ -360,7 +269,7 @@ export function Portfolio() {
     requestAnimationFrame(() => window.scrollTo(0, y));
   }
 
-  const detailLabel = open?.kind === "project" ? "Work" : "Experience";
+  const detailLabel = "Experience";
 
   const github = PROFILE.socials.find((item) => item.label === "GitHub");
 
@@ -585,20 +494,30 @@ export function Portfolio() {
             </>
           )}
 
-          {tab === "work" && (
-            <>
-              {PROJECTS.map((project) => (
-                <Post
-                  key={project.id}
-                  date={project.date}
-                  targetId={`work:${project.id}`}
-                  stats={project.stats}
-                  onOpen={() => openItem({ kind: "project", id: project.id })}
-                >
-                  <ProjectBody project={project} />
-                </Post>
+          {tab === "library" && (
+            <div className="grid grid-cols-[repeat(auto-fill,124px)] justify-start gap-x-5 gap-y-8 px-4 py-6">
+              {BOOKS.map((book) => (
+                <article key={book.slug} className="w-[124px]">
+                  <Link href={libraryPath(book.slug)} className="block">
+                    <img
+                      src={book.cover}
+                      alt=""
+                      className="aspect-[3/4] w-full rounded-[4px] object-cover shadow-[0_16px_36px_rgba(0,0,0,0.22)]"
+                    />
+                    <h3 className="mt-3 text-[16px] font-semibold tracking-[-0.02em]">
+                      {book.title}
+                    </h3>
+                    <p className="mt-0.5 text-[13px] text-muted">{book.read}</p>
+                  </Link>
+                  <EngagementBar
+                    targetId={`book:${book.slug}`}
+                    reposts={book.stats.reposts}
+                    views={book.stats.views}
+                    compact
+                  />
+                </article>
               ))}
-            </>
+            </div>
           )}
 
           {tab === "experience" && (

@@ -8,7 +8,19 @@ import { ThemeSwitch, useTheme } from "@/components/theme";
 import { VerifiedBadge } from "@/components/VerifiedBadge";
 import { isLatestEssay, PROFILE, type EssayItem } from "@/data/portfolio";
 
-export function NoteReader({ essay }: { essay: EssayItem }) {
+export function NoteReader({
+  essay,
+  kicker = "Note",
+  backHref = "/",
+  backHint = "Back to profile",
+  targetPrefix = "note",
+}: {
+  essay: EssayItem;
+  kicker?: string;
+  backHref?: string;
+  backHint?: string;
+  targetPrefix?: string;
+}) {
   const { theme, applyTheme } = useTheme();
 
   return (
@@ -16,7 +28,7 @@ export function NoteReader({ essay }: { essay: EssayItem }) {
       <div className="mx-auto min-h-screen w-full max-w-[520px]">
         <header className="sticky top-0 z-30 flex items-center gap-3 bg-page/75 px-4 py-1.5 backdrop-blur-xl">
           <Link
-            href="/"
+            href={backHref}
             className="flex min-w-0 items-center gap-2 rounded-full py-1 text-left"
           >
             <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-pill text-ink">
@@ -24,9 +36,9 @@ export function NoteReader({ essay }: { essay: EssayItem }) {
             </span>
             <span className="min-w-0">
               <span className="block truncate text-[15px] font-semibold tracking-[-0.02em]">
-                Note
+                {kicker}
               </span>
-              <span className="block text-[12px] text-muted">Back to profile</span>
+              <span className="block text-[12px] text-muted">{backHint}</span>
             </span>
           </Link>
           <div className="ml-auto">
@@ -184,7 +196,7 @@ export function NoteReader({ essay }: { essay: EssayItem }) {
           </div>
           <div className="mt-8">
             <EngagementBar
-              targetId={`note:${essay.slug}`}
+              targetId={`${targetPrefix}:${essay.slug}`}
               reposts={essay.stats.reposts}
               views={essay.stats.views}
             />

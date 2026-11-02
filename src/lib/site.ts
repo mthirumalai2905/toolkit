@@ -11,3 +11,11 @@ export function getSiteUrl() {
 export function notePath(slug: string) {
   return `/notes/${slug}`;
 }
+
+export function libraryPath(slug: string) {
+  return `/library/${slug}`;
+}
+
+export function libraryChapterPath(book: string, chapter: string) {
+  return `/library/${book}/${chapter}`;
+}
